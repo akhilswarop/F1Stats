@@ -9,13 +9,27 @@ final Map<String, Color> teamColors = {
   'Ferrari': Color(0xFFF91536),
   'Red Bull': Color(0xFF3671C6),
   'Alpine F1 Team': Color(0xFF2293D1),
-  'Haas F1 Team': Color(0xFFE6002B),
+  'Haas F1 Team': Color(0x77E6002B),
   'Aston Martin': Color(0xFF358C75),
   'RB F1 Team': Color(0xFF5E8FAA),
   'McLaren': Color(0xFFF58020),
   'Sauber': Color(0xFF900000),
   'Williams': Color(0xFF37BEDD),
 };
+
+final Map<String, String> teamLogos = {
+  'Mercedes': "assets/logos/Mercedes.png",
+  'Ferrari': "assets/logos/Ferrari.png",
+  'Red Bull': "assets/logos/RedBull.png",
+  'Alpine F1 Team': "assets/logos/AlpineF1.png",
+  'Haas F1 Team': "assets/logos/Haas.png",
+  'Aston Martin': "assets/logos/Aston Martin.png",
+  'RB F1 Team': "assets/logos/VCarb.png",
+  'McLaren': "assets/logos/McLaren.png",
+  'Sauber': "assets/logos/Sauber.png",
+  'Williams': "assets/logos/Williams.png",
+};
+
 
 class ConstructorStanding {
   final int position;
@@ -32,7 +46,8 @@ class ConstructorStanding {
     return ConstructorStanding(
       position: int.parse(element.getAttribute('position') ?? '0'),
       points: int.parse(element.getAttribute('points') ?? '0'),
-      constructor: Constructor.fromXml(element.findElements('Constructor').first),
+      constructor:
+          Constructor.fromXml(element.findElements('Constructor').first),
     );
   }
 }
@@ -59,11 +74,13 @@ class Constructor {
 
 class ConstructorStandingsPage extends StatefulWidget {
   @override
-  _ConstructorStandingsPageState createState() => _ConstructorStandingsPageState();
+  _ConstructorStandingsPageState createState() =>
+      _ConstructorStandingsPageState();
 }
 
 class _ConstructorStandingsPageState extends State<ConstructorStandingsPage> {
-  final String apiUrl = 'https://ergast.com/api/f1/current/constructorStandings';
+  final String apiUrl =
+      'https://ergast.com/api/f1/current/constructorStandings';
 
   List<ConstructorStanding> constructorStandings = [];
 
@@ -81,7 +98,8 @@ class _ConstructorStandingsPageState extends State<ConstructorStandingsPage> {
         final document = xml.XmlDocument.parse(response.body);
 
         // Extract constructor standings
-        final standings = document.findAllElements('ConstructorStanding').map((element) {
+        final standings =
+            document.findAllElements('ConstructorStanding').map((element) {
           return ConstructorStanding.fromXml(element);
         }).toList();
 
@@ -101,16 +119,14 @@ class _ConstructorStandingsPageState extends State<ConstructorStandingsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Constructor Standings'),
-      ),
+
       body: ListView.builder(
         itemCount: constructorStandings.length,
         itemBuilder: (context, index) {
           final standing = constructorStandings[index];
           final constructorName = standing.constructor.name;
           final teamColor = teamColors[constructorName] ?? Colors.grey;
-
+          final teamLogo = teamLogos[constructorName];
           return Padding(
             padding: const EdgeInsets.only(bottom: 5),
             child: Card(
@@ -119,6 +135,7 @@ class _ConstructorStandingsPageState extends State<ConstructorStandingsPage> {
               ),
               color: teamColor,
               child: ListTile(
+                trailing: SizedBox( width: 40, height:40,child: Image.asset(teamLogo!)),
                 title: Text(
                   '${standing.constructor.name}',
                   style: TextStyle(
@@ -130,7 +147,8 @@ class _ConstructorStandingsPageState extends State<ConstructorStandingsPage> {
                 ),
                 subtitle: Text(
                   'Position: ${standing.position} | Points: ${standing.points}',
-                  style: TextStyle(                    fontFamily: 'Formula1', // Apply F1 font family here
+                  style: TextStyle(
+                      fontFamily: 'Formula1', // Apply F1 font family here
                       color: Colors.white),
                 ),
               ),
@@ -141,7 +159,3 @@ class _ConstructorStandingsPageState extends State<ConstructorStandingsPage> {
     );
   }
 }
-
-void main() => runApp(MaterialApp(
-  home: ConstructorStandingsPage(),
-));

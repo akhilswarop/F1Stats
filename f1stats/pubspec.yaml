@@ -29,7 +29,7 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/fonts/ # Ensure the directory structure matches
+    - assets/logos/
 
   fonts:
     - family: Formula1
