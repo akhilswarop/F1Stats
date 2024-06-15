@@ -1,5 +1,5 @@
 import 'dart:ui';
-
+import 'team_page.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:xml/xml.dart' as xml;
@@ -135,6 +135,11 @@ class _ConstructorStandingsPageState extends State<ConstructorStandingsPage> {
               ),
               color: teamColor,
               child: ListTile(
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(
+                      builder: (context) => TeamPage(teamName:constructorName)
+                  ));
+                },
                 trailing: SizedBox( width: 40, height:40,child: Image.asset(teamLogo!)),
                 title: Text(
                   '${standing.constructor.name}',

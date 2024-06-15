@@ -35,7 +35,7 @@ flutter:
     - family: Formula1
       fonts:
         - asset: assets/fonts/Formula1-Black.ttf
-          weight: 900
+          weight: 500
         - asset: assets/fonts/Formula1-Bold.ttf
           weight: 700
         - asset: assets/fonts/Formula1-Regular.ttf
